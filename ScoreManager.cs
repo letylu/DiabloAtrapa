@@ -12,8 +12,6 @@ public class ScoreManager : MonoBehaviour
     public Text scoreText;
     public Text timeText;
     public int timePerLevel = 30;
-   // public GameObject youWon;
-   // public GameObject gameOver;
     public DiabloController diabloScript;
     public Gun gunScript;
     public SpawnJewels spawnScript;
@@ -25,17 +23,6 @@ public class ScoreManager : MonoBehaviour
     private float clockSpeed = 1f;
 
 
-    // voy a ponerlo como una rutina que se activa con StartGame
-    /*
-    void Awake()
-    {
-        scoreText.text = ("Score: " + score + "/" + targetScore);
-
-        InvokeRepeating("Clock", 0, clockSpeed);
-        
-    }
-    */
-
     public void StartClock()
     {
         scoreText.text = ("Score: " + score + "/" + targetScore);
@@ -44,34 +31,17 @@ public class ScoreManager : MonoBehaviour
 
     }
 
-    /*
-    private void Start()
-    {
-       // youWon.SetActive(false);
-       // gameOver.SetActive(false);
-    }
-    */
-
     void Clock()
     {
         timePerLevel--;
         timeText.text = ("Tiempo: " + timePerLevel);
-       // if (running == false) return;
         if (timePerLevel == 0)
         {
             CheckGameOver();
         }
     }
 
-    /*
-    private void Update()
-    {
-        if(running == false)
-        {
-            CancelInvoke();
-        }
-    }
-*/
+ 
     public void AddPoints(int pointScored)
     {
         score += pointScored;
@@ -82,12 +52,9 @@ public class ScoreManager : MonoBehaviour
     {
         diabloScript.DestroyDemon();
         carmelita.SetActive(false);
-       // gunScript.CollectedObject();
         if (score >= targetScore)
         {
-           // youWon.SetActive(true);
             Ganaste(score);
-           // Time.timeScale = 0;
            
             CancelInvoke();
             gunScript.TerminaAnimacion();
@@ -98,22 +65,15 @@ public class ScoreManager : MonoBehaviour
         }
         else
         {
-            //gameOver.SetActive(true);
             Perdiste(score);
-            //Time.timeScale = 0;
-            
             CancelInvoke();
             gunScript.TerminaAnimacion();
-            
             DamageEvent.Invoke();
         }
     }
 
     private void Perdiste(int score)
     {
-        //Play level completed sound effect
-        // AudioClips.instance.PlayCompletedSFX();
-
         spawnScript.DestruyeLoQueQueda();
         TerminasteDialog.instance.SetDialog("PerdisteDialog");
         TerminasteDialog.instance.SetScore(score);
@@ -123,8 +83,6 @@ public class ScoreManager : MonoBehaviour
 
     private void Ganaste(int score)
     {
-        //Play level completed sound effect
-        //AudioClips.instance.PlayCompletedSFX();
         spawnScript.DestruyeLoQueQueda();
         TerminasteDialog.instance.SetDialog("GanasteDialog");
         TerminasteDialog.instance.SetScore(score);

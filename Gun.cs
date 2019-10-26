@@ -34,16 +34,10 @@ public class Gun : MonoBehaviour
         isShooting = true;
         minerAnimator.speed = 0;
 
-        // se guarda la direccion de disparo relativa al gun
-
-        //RaycastHit2D hit;
-        //Vector3 down = transform.TransformDirection(Vector3.down);
-        //Vector2 down = transform.TransformDirection(Vector2.down);
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = 10;
 
         Vector3 screenPos = Camera.main.ScreenToWorldPoint(mousePos);
-       // hit = Physics2D.Raycast(this.gameObject.transform.position, Vector2.zero);
         hit = Physics2D.Raycast(screenPos, Vector2.zero);
         if (hit == false)
         {
@@ -51,16 +45,13 @@ public class Gun : MonoBehaviour
             return;
         }
 
-        //if (Physics2D.Raycast(transform.position, down))
-        // if (hit.collider != null) 
-
         if (hit)
         {
             Debug.Log("Entre a hit " + hit.point + hit.collider.name);
             claw.SetActive(true);
             clawScript.ClawTarget(hit.point);
 
-            // esto lo puse extra: inicializa el diablo
+            // inicializa el diablo
             if (hit.transform.gameObject.CompareTag("Jewel"))
             {
                 Debug.Log("Voy a crear diablo ");

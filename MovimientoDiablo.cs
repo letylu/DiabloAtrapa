@@ -5,15 +5,9 @@ using UnityEngine;
 public class MovimientoDiablo : MonoBehaviour {
 
     GameObject diablo = null;
-
-    //Rigidbody2D rb;
-    //GameObject target;
     Vector2 target;
     float moveSpeed;
     Vector3 directionToTarget;
-    //public AudioClip OkSound, BoomSound;
-    //public UnityEngine.GameObject explosion;    // el prefab de explosion
-    // public LLT.Variables.FloatVariable puntaje;
     public bool escudoCarmelita;
     Vector2 start;   // punto de inicio
     bool running = false;
@@ -24,13 +18,8 @@ public class MovimientoDiablo : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        // if (start == null)  return;
-
         if (diablo == null) return;
-       // rb = diablo.GetComponent<Rigidbody2D>();
         moveSpeed = Random.Range(0.5f, 1.5f);
-       // moveSpeed = 0.5f;
-        // canControl = false;
     }
 
     // Update is called once per frame
@@ -38,8 +27,6 @@ public class MovimientoDiablo : MonoBehaviour {
     {
         if (diablo != null && running)
         {
-            
-            //Debug.Log("start = " + start + " end = " + target);
             StartCoroutine(FollowArc(diablo.transform, start, target, 12f, moveSpeed));
         }
 
@@ -55,9 +42,7 @@ public class MovimientoDiablo : MonoBehaviour {
         if (mover == null) yield return null;       // esto es nuevo
 
         Vector2 difference = end - start;
-        // Debug.Log("difference = " + difference);
         float span = difference.magnitude;
-        // Debug.Log("span = " + span);
 
         // Override the radius if it's too small to bridge the points.
         float absRadius = Mathf.Abs(radius);
@@ -71,7 +56,6 @@ public class MovimientoDiablo : MonoBehaviour {
 
         Vector2 toStart = start - center;
         float startAngle = Mathf.Atan2(toStart.y, toStart.x);
-        //  Debug.Log("startAngle = " + startAngle);
 
         Vector2 toEnd = end - center;
         float endAngle = Mathf.Atan2(toEnd.y, toEnd.x);
@@ -86,9 +70,7 @@ public class MovimientoDiablo : MonoBehaviour {
         {
             if (mover == null) yield return null;           // esto es nuevo
             float angle = startAngle + progress * travel;
-            //  Debug.Log("angle = " + angle);
             mover.position = center + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * absRadius;
-            // Debug.Log("position " + mover.position);
             progress += Time.deltaTime / duration;
             yield return null;
         } while (progress < 1f);
@@ -104,7 +86,6 @@ public class MovimientoDiablo : MonoBehaviour {
         if (diabloCreado == null) return;
         diablo = diabloCreado;
         running = true;
-       // rb = diabloCreado.GetComponent<Rigidbody2D>();
 
     }
 

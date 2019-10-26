@@ -14,13 +14,6 @@ public class DiabloController : MonoBehaviour {
     RaycastHit2D hit;
     GameObject diabloInicial;
 
-    // Use this for initialization
-    /*
-    void Start () {
-        if (spawnPoints == null) return;
-        esteSpawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
-    }
-	*/
 
 	// Crea el diablo e inicia el movimiento del mismo al target
 	public void CreaDiablo () {
@@ -36,13 +29,8 @@ public class DiabloController : MonoBehaviour {
         diabloInicial = Instantiate(DiabloPrefab, esteSpawnPoint.position, Quaternion.identity);
         hit = gunScript.GetHit();
 
-        // esto es nuevo
         Vector3 estaPosicion = hit.collider.bounds.center;
         Vector2 alliVa = new Vector2(estaPosicion.x, estaPosicion.y);
-
-        //
-
-        // movimientoScript.SetStartMovement(esteSpawnPoint.position, hit.point, diabloInicial );
         movimientoScript.SetStartMovement(esteSpawnPoint.position, alliVa, diabloInicial);
         StartCoroutine(EsperaXSeg(2f, diabloInicial));
     }
@@ -52,7 +40,6 @@ public class DiabloController : MonoBehaviour {
         movimientoScript.StopMovement();
         StopAllCoroutines();
         Destroy(diablo);
-        //diablo = null;
     }
 
     IEnumerator EsperaXSeg(float segundos, GameObject diablo)

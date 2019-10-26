@@ -27,23 +27,11 @@ public class Claw : MonoBehaviour
 
     void Update()
     {
-        //float step = speed * Time.deltaTime;
-       // if (retracting == false) return;
+ 
         float step = speed * Time.unscaledDeltaTime;
         transform.position = Vector2.MoveTowards(transform.position, target, step);
-        //transform.position = Vector2.MoveTowards(origin.position, target, step);
-
-        /*
-        Debug.Log("transform " + transform.position);
-        Debug.Log("target " + target);
-        Debug.Log("origen " + origin.position);
-        */
-
         lineRenderer.SetPosition(0, origin.position);
         lineRenderer.SetPosition(1, transform.position);
-
-        // gun.CollectedObject();
-        // Destroy(childObject);
 
         if (retracting == false) return; 
         if (transform.position == origin.position && retracting)
@@ -58,13 +46,9 @@ public class Claw : MonoBehaviour
                 hitJewel = false;
             }
             Destroy(childObject);
-           // StartCoroutine(EsperaXSeg(0.5f));
-            //diabloScript.DestruyeDiablo();
-            //gameObject.SetActive(false);
             retracting = false;
             
         }
-       // retracting = false;     // esto no estaba
     }
 
     public void ClawTarget(Vector2 pos)
@@ -75,13 +59,11 @@ public class Claw : MonoBehaviour
     
     void OnTriggerEnter2D(Collider2D other)
     {
-       // retracting = true;   lo voy a mover de aqui
         target = origin.position;
         if (retracting == true) return;
         if (other.name == "Miner" || other.name == "Gun")
         {
             gun.CollectedObject();
-            //StartCoroutine(EsperaXSeg(0.5f));  Ya ESTABA COMENTADO
             return;       // esto también es nuevo
         }
         Debug.Log("Entre a OnTrigger con other = " + other.name);
@@ -100,26 +82,8 @@ public class Claw : MonoBehaviour
             retracting = true;
         }
 
-        // esto lo puse extra
-        /*
-        else if (other.gameObject.CompareTag("Diablo"))
-        {
-            //gun.CollectedObject();    esto lo quite tambien
-            retracting = true;
-
-            //StartCoroutine(EsperaXSeg(0.5f));
-        }
-        //retracting = false;    // esto no estaba
-        */
     }
 
-/*
-    IEnumerator EsperaXSeg(float segundos)
-    {
-        yield return new WaitForSeconds(segundos);
-         diabloScript.DestruyeDiablo();
-    }
-    */
 
     public void SetRetractingFalse()
     {

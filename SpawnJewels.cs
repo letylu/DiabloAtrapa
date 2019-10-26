@@ -47,45 +47,16 @@ public class SpawnJewels : MonoBehaviour
         Shuffle(objects);
         objectsEscogidos = ChooseSet(numObjects);
         Debug.Log("objetos escogidos length = " + objectsEscogidos.Length);
-        //HazNumMaxSpawn(numObjects);
-
         HazNumMaxSpawn(objectsEscogidos);
-
-        //agregué esto
         scoreScript.StartClock();
         gunScript.SetPlaying(true);
-    }
-
-
-    // crea todos los objetos de una sola vez. Lo voy a comentar porque voy a poner algo diferente
-    /*
-    void Spawn()
-
-    {
-        for (int i = 0; i <= numObjects; i++)
-        {
-            //Vector3 spawnLoc = new Vector3(Random.Range(-xRange, xRange), Random.Range(-yRange, yRange), 0);
-            Vector3 spawnLoc = new Vector3(Random.Range(-xRange, xRange), Random.Range(-yRange, yRange), 0);
-            int objectPick = Random.Range(0, objects.Length);
-            // Instantiate(objects[objectPick], spawnLoc, Random.rotation);
-            Instantiate(objects[objectPick], spawnLoc, Quaternion.identity);
-        }
-    }
-    */
-
-        
-   
+    }   
 
     bool PreventSpawnOverLap( Vector3 spawnPos2)
     {
 
         colliders = Physics2D.OverlapCircleAll(transform.position, radius);
-       // colliders = Physics2D.OverlapCircleAll(spawnPos1, radius);
-       //Debug.Log("posicion 1 " + spawnPos1);
-       // Debug.Log("posicion 2 " + spawnPos2);
-       // Debug.Log("Colliders.Length " + colliders.Length);
         for (int i = 0; i < colliders.Length; i++)
-        //for(int i = 0; i< spawnablePositions.Count; i++ )
         {
             Vector3 centerPoint = colliders[i].bounds.center;
             float width = colliders[i].bounds.extents.x + 0.8f;
@@ -99,38 +70,22 @@ public class SpawnJewels : MonoBehaviour
             {
                 if (spawnPos2.y >= lowerExtent && spawnPos2.y <= upperExtent)
                 {
-                    /*
-                    Debug.Log("centerPoint = " + centerPoint);
-                    Debug.Log("leftExtent = " + leftExtent);
-                    Debug.Log("rightExtent = " + rightExtent);
-                    Debug.Log("lowerExtent = " + lowerExtent);
-                    Debug.Log("upperExtent = " + upperExtent);
-                    */
-                   // Debug.Log("regreso falso 1");
                     return false;
                 }
             }
         }
-       // Debug.Log("regreso true ");
         return true;
     }
 
 
-    // void HazNumMaxSpawn(int numObjects)
     void HazNumMaxSpawn(GameObject[] esteArreglo)
-    {
-        //int objectPick = Random.Range(0, objects.Length);
-       
+    {  
         Vector3 spawnPos2 = new Vector3(0, 0, 0);
-        //GameObject object1;
-        
-        //GameObject object2;
         int safetyNet = 0;
 
        // Debug.Log("puse este objeto = " + object1.name + "en posicion = " + spawnPos1);
         bool canSpawnHere = false;
         objetosInstanciados = new GameObject[esteArreglo.Length];
-        //for (int i = 0; i < numObjects; i++)
         for (int i = 0; i < esteArreglo.Length; i++)
         {
             while (!canSpawnHere)
@@ -141,11 +96,9 @@ public class SpawnJewels : MonoBehaviour
                     Debug.Log("Demasiados intentos ");
                     break;
                 }
-                //spawnPosX = Random.Range(-xRange, xRange);
                 float spawnPosX = Random.Range(-(maxWidth ), (maxWidth ));
                 float spawnPosY = Random.Range(-yRange, yRange);
                 spawnPos2 = new Vector3(spawnPosX, spawnPosY, 0);
-                //object2 = Instantiate(objects[i], spawnPos2, Quaternion.identity);
                 canSpawnHere = PreventSpawnOverLap(spawnPos2 );
                 
                 if (canSpawnHere)
@@ -153,13 +106,7 @@ public class SpawnJewels : MonoBehaviour
                     break;
                 }
             }
-            //object1 = Instantiate(objects[i], spawnPos2, Quaternion.identity);
-            //object1 = Instantiate(esteArreglo[i], spawnPos2, Quaternion.identity);
-
             objetosInstanciados[i] = Instantiate(esteArreglo[i], spawnPos2, Quaternion.identity) as GameObject;
-            // Debug.Log("siguiente objeto = " + object1.name + "posicion = " + spawnPos2);
-
-            //spawnPos1 = spawnPos2;
             canSpawnHere = false;
         }
     }
